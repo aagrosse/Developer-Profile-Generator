@@ -25,7 +25,7 @@ const colors = {
     }
   };
   
-  function generateHTML(data) {
+  module.exports = function generateHTML(data, responseArr)  {
     return `<!DOCTYPE html>
   <html lang="en">
      <head>
@@ -82,16 +82,20 @@ const colors = {
            font-size: 1.5em;
            }
            h5 {
-           font-size: 1.3em;
+            font-size: 1.3em;
+            display: block;
+            width: 100%;
+            text-align: center;
            }
            h6 {
            font-size: 1.2em;
            }
            .photo-header {
+            
            position: relative;
            margin: 0 auto;
            margin-bottom: -50px;
-           display: flex;
+           
            justify-content: center;
            flex-wrap: wrap;
            background-color: ${colors[data.color].headerBackground};
@@ -101,12 +105,14 @@ const colors = {
            border-radius: 6px;
            }
            .photo-header img {
+           display: block;
            width: 250px;
            height: 250px;
            border-radius: 50%;
            object-fit: cover;
+           margin: 0 auto;
            margin-top: -75px;
-           border: 6px solid ${colors[data.color].photoBorderColor};
+           border: 6px solid black;
            box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
            }
            .photo-header h1, .photo-header h2 {
@@ -155,7 +161,9 @@ const colors = {
            }
            
            .col {
-           flex: 1;
+            float:left;
+            width: 500px;
+           flex:1
            text-align: center;
            }
   
@@ -170,5 +178,62 @@ const colors = {
               zoom: .75; 
             } 
            }
-        </style>`
-          }
+        </style>
+        <body class="wrapper">
+        <div class="photo-header">
+          <img src="${responseArr[0].data.avatar_url}" alt="" />
+          <h2>Hello!</h2>
+          <h2>My name is ${responseArr[0].data.name}</h2>
+          <h5>Currently @ ${responseArr[0].data.company} </h5>
+          <div class="links-nav">
+            <a target="_blank" href="https://www.google.com/maps/place/${responseArr[0].data.location}" class="nav-link"><i class="fas fa-location-arrow"></i> ${responseArr[0].data.location}</a>
+            <a target="_blank" href="${responseArr[0].data.html_url}" class="nav-link"><i class="fab fa-github-square"></i> GitHub</a>
+            <a target="_blank" href="${responseArr[0].data.blog}" class="nav-link"> <i class="fas fa-rss-square"></i> Blog</a>
+          </div>
+        </div>
+        <!--end photo-header-->
+        <main class="container">
+          <h3>${responseArr[0].data.bio}</h3>
+      
+          <div class="row">
+            <div class="card col">
+            <center>
+              <h3>Public Repositories</h3>
+              <h4>${responseArr[0].data.public_repos}</h4>
+              </center>
+            </div>
+      
+            <div class="card col">
+            <center>
+              <h3>Followers</h3>
+              <h4>${responseArr[0].data.followers}</h4>
+              </center>
+            </div>
+          </div>
+      
+        <div class="row">
+        <center>
+            <div class="card col">
+              <h3>GitHub Stars</h3>
+              <h4>${responseArr[1].data.length}</h4>
+              </center>
+            </div>
+      
+            <div class="card col">
+            <center>
+              <h3>Following</h3>
+              <h4>${responseArr[0].data.following}</h4>
+              </center>
+            </div>
+        </div>
+      </main>
+      <footer>
+      <div style="height: 300px">
+      </div>
+      </footer>
+      
+      </body>
+      </html>
+            `;
+      };
+      
